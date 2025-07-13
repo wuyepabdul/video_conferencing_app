@@ -27,12 +27,14 @@ export const signup = async (req, res) => {
     const idx = Math.floor(Math.random() * 100) + 1; //generate a random number between 1 to 100
     const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
 
-    const newUser = new User.create({
+    const newUser = await User.create({
       email,
       fullName,
       password,
       profilePic: randomAvatar,
     });
+
+    // TODO:  Create user in stream
 
     const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "7d",
@@ -46,7 +48,10 @@ export const signup = async (req, res) => {
     });
 
     res.status(201).json({ success: true, user: newUser });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 export const login = async (req, res) => {
