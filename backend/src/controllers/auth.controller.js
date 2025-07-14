@@ -72,7 +72,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("-password");
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
@@ -103,4 +103,64 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   res.clearCookie("jwt");
   res.status(200).json({ success: true, message: "Logout Successful" });
+};
+
+export const onboard = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { fullName, bio, nativeLanguage, learningLanguage, location } =
+      req.body;
+
+    if (
+      !fullName ||
+      !bio ||
+      !nativeLanguage ||
+      !learningLanguage ||
+      !location
+    ) {
+      return res.status(400).json({
+        message: "All fields are required",
+        missingFields: [
+          !fullName && "fullName",
+          !bio && "bio",
+          !nativeLanguage && "native Language",
+          !learningLanguage && "learning Language",
+          !location && "location",
+        ],
+      });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        ...req.body,
+        isOnboarded: true,
+      },
+      { new: true }
+    );
+
+    if (!updatedUser)
+      return res.status(404).json({ message: "User not Found" });
+
+    try {
+      await upsertStreamUser({
+        id: updatedUser._id.toString(),
+        name: updatedUser.fullName,
+        image: updatedUser.profilePic,
+      });
+      console.log(
+        `Stream user updated after onboarding for ${updatedUser.fullName}`
+      );
+    } catch (error) {
+      console.log(
+        "error updating stream user during onboarding",
+        error.message
+      );
+    }
+
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+    console.log("Onboarding Error", error.message);
+    return res.status(200).json({ message: "Internal Server Error" });
+  }
 };
