@@ -144,7 +144,7 @@ const SignUpPage = () => {
             {/* illustration */}
             <div className="relative aspect-square max-w-sm auto">
               <img
-                src="/frontend/public/signup.png"
+                src="/signup.png"
                 alt="Language connection illustration"
                 className="w-full h-full"
               />
