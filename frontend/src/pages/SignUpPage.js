@@ -40,6 +40,12 @@ const SignUpPage = () => {
             </span>
           </div>
 
+          {error && (
+            <div className="alert alert-error mb-4">
+              <span>{error.response.data.message}</span>
+            </div>
+          )}
+
           <div className="w-full">
             <form onSubmit={handleSignup}>
               <div className="space-y-4">
