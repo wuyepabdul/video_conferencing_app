@@ -3,7 +3,14 @@ import useAuthUser from "../hooks/useAuthUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { completOnboarding } from "../lib/api";
-import { CameraIcon, ShuffleIcon } from "lucide-react";
+import {
+  CameraIcon,
+  LoaderIcon,
+  MapPinIcon,
+  ShipWheelIcon,
+  ShuffleIcon,
+} from "lucide-react";
+import { LANGUAGES } from "../constants";
 
 const OnboardingPage = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -24,6 +31,10 @@ const OnboardingPage = () => {
       toast.success("Profile onboarded successfully");
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
+    onError: (error) => {
+      console.log(error.response.data);
+      toast.error(error.response.data.message);
+    },
   });
 
   const handleSubmit = (e) => {
@@ -31,7 +42,13 @@ const OnboardingPage = () => {
     onboardingMutation(formState);
   };
 
-  const handleRandomAvatar = () => {};
+  const handleRandomAvatar = () => {
+    const idx = Math.floor(Math.random() * 100) + 1;
+    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+
+    setFormState({ ...formState, profilePic: randomAvatar });
+    toast.success("Random profile picture generated");
+  };
 
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center p-4">
@@ -101,13 +118,97 @@ const OnboardingPage = () => {
                 placeholder="Tell others about yourself and find your language learning goals"
               />
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-control">
-                <label className="label"> 
+                <label className="label">
                   <span className="label-text">Native Language</span>
                 </label>
+                <select
+                  name="nativeLanguage"
+                  value={formState.nativeLanguage}
+                  onChange={(e) =>
+                    setFormState({
+                      ...formState,
+                      nativeLanguage: e.target.value,
+                    })
+                  }
+                  className="select select-bordered w-full"
+                >
+                  <option value=""> Select your native language </option>
+                  {LANGUAGES.map((lang) => (
+                    <option
+                      value={lang.toLowerCase()}
+                      key={`learning- ${lang}`}
+                    >
+                      {lang}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Learning Language</span>
+                </label>
+                <select
+                  name="learningLanguage"
+                  value={formState.learningLanguage}
+                  onChange={(e) =>
+                    setFormState({
+                      ...formState,
+                      learningLanguage: e.target.value,
+                    })
+                  }
+                  className="select select-bordered w-full"
+                >
+                  <option value=""> Select your learning language </option>
+                  {LANGUAGES.map((lang) => (
+                    <option
+                      value={lang.toLowerCase()}
+                      key={`learning- ${lang}`}
+                    >
+                      {lang}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Location</span>
+              </label>
+              <div className="relative">
+                <MapPinIcon className="absolute top-1/2 transform -translate-y-1/2 left-3 size-5 text-base-content opacity-70" />
+                <input
+                  type="text"
+                  name="location"
+                  value={formState.location}
+                  onChange={(e) =>
+                    setFormState({ ...formState, location: e.target.value })
+                  }
+                  className="input input-bordered w-full pl-10"
+                  placeholder="City, Country"
+                />
+              </div>
+            </div>
+
+            <button
+              className="btn btn-primary w-full"
+              disabled={isPending}
+              type="submit"
+            >
+              {!isPending ? (
+                <>
+                  <ShipWheelIcon className="size-5 mr-2" /> Complete Onboarding
+                </>
+              ) : (
+                <>
+                  <LoaderIcon className="animate-spin size-5 mr-2" />
+                  Onboarding...
+                </>
+              )}
+            </button>
           </form>
         </div>
       </div>
