@@ -3,6 +3,7 @@ import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../lib/axios";
+import { signup } from "../lib/api";
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
@@ -14,10 +15,7 @@ const SignUpPage = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending, error } = useMutation({
-    mutationFn: async () => {
-      const response = await axiosInstance.post("/auth/signup", signupData);
-      return response.data;
-    },
+    mutationFn: signup,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] }); // refetch user data after signup for user authentication
     },
@@ -25,7 +23,7 @@ const SignUpPage = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    mutate();
+    mutate(signupData);
   };
   return (
     <div
