@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../lib/axios";
 import { signup } from "../lib/api";
 
 const SignUpPage = () => {
@@ -145,9 +144,8 @@ const SignUpPage = () => {
                   {" "}
                   {isPending ? (
                     <>
-                      <span className="loading loading-spinner loading-xs">
-                        Loading...
-                      </span>
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Loading...
                     </>
                   ) : (
                     "Create an Account"
