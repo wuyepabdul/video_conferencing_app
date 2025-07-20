@@ -16,8 +16,12 @@ export const logout = async () => {
 };
 
 export const getAuthUser = async () => {
-  const res = await axiosInstance.get("/auth/me");
-  return res.data;
+  try {
+    const res = await axiosInstance.get("/auth/me");
+    return res.data;
+  } catch (error) {
+    return null;
+  }
 };
 
 export const completOnboarding = async (userData) => {
