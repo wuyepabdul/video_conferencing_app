@@ -4,3 +4,5 @@ const useThemeStore = create((set) => ({
   theme: "coffee",
   setTheme: (theme) => set({ theme }),
 }));
+
+export default useThemeStore;
