@@ -1,8 +1,11 @@
 import { create } from "zustand";
 
 const useThemeStore = create((set) => ({
-  theme: "coffee",
-  setTheme: (theme) => set({ theme }),
+  theme: localStorage.getItem("videoing-theme") || "coffee",
+  setTheme: (theme) => {
+    localStorage.setItem("videoing-theme", theme);
+    set({ theme });
+  },
 }));
 
 export default useThemeStore;
