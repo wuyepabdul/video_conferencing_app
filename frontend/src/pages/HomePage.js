@@ -1,11 +1,39 @@
-import React from 'react'
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
+import {
+  getOutGoingFriendRequest,
+  getRecommendedUsers,
+  getUserFriends,
+  sendFriendRequest,
+} from "../lib/api";
 
 const HomePage = () => {
-  return (
-    <div>
-      HomePage
-    </div>
-  )
-}
+  const queryClient = useQueryClient();
+  const [outGoingRequestsIds, setOutGoingRequestsIds] = useState([]);
 
-export default HomePage
+  const { data: friends = [], isLoading: loadingFriends } = useQuery({
+    queryKey: ["friends"],
+    queryFn: getUserFriends,
+  });
+
+  const { data: recommendedUsers = [], isLoading: loadingRecommendedUsers } =
+    useQuery({
+      queryKey: ["recommendedUsers"],
+      queryFn: getRecommendedUsers,
+    });
+
+  const { data: outGoingFriendRequest } = useQuery({
+    queryKey: ["outGoingFriendRequest"],
+    queryFn: getOutGoingFriendRequest,
+  });
+
+  const { mutate: sendRequestMutation, isPending } = useMutation({
+    mutationFn: sendFriendRequest,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["outGoingFriendRequest"] }),
+  });
+
+  return <div>HomePage</div>;
+};
+
+export default HomePage;
