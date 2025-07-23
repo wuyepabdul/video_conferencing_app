@@ -1,6 +1,7 @@
 import React from "react";
 import { LANGUAGE_TO_FLAG } from "../constants";
 import { Link } from "react-router";
+import getLanguageFlag from "../lib/helpers";
 
 const FriendCard = (friend) => {
   return (
@@ -34,19 +35,4 @@ const FriendCard = (friend) => {
 
 export default FriendCard;
 
-function getLanguageFlag(language) {
-  if (!language) return null;
 
-  const languageLowercase = language.toLowerCase();
-  const countryCode = LANGUAGE_TO_FLAG[languageLowercase];
-
-  if (countryCode) {
-    return (
-      <img
-        src={`https://flagcdn.com/24x18/${countryCode}`.png}
-        alt={`${languageLowercase} flag`}
-        className="h-3 mr-1 inline-block"
-      />
-    );
-  }
-}
