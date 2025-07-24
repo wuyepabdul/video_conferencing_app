@@ -83,7 +83,8 @@ const HomePage = () => {
                   Meet New Learners
                 </h2>
                 <p className="opacity-70">
-                  Discover perfect language exchange partners based on profile
+                  Discover perfect language exchange partners based on your
+                  profile
                 </p>
               </div>
             </div>
@@ -91,12 +92,11 @@ const HomePage = () => {
 
           {loadingRecommendedUsers ? (
             <div className="flex justify-center py-12">
-              <span className="loading loading-spinner loading-lg" /> 
+              <span className="loading loading-spinner loading-lg" />
             </div>
           ) : recommendedUsers.length === 0 ? (
             <div className="card bg-base-200 p-6 text-center">
-              <h3 className="font-semibold text-lg mb-2 ">
-                {" "}
+              <h3 className="font-semibold text-lg mb-2">
                 No recommendations available
               </h3>
               <p className="text-base-content opacity-70">
@@ -134,7 +134,7 @@ const HomePage = () => {
 
                       <div className="flex flex-wrap gap-1.5">
                         <span className="badge badge-secondary">
-                          {getLanguageFlag(user.nativeLanguage)}  
+                          {getLanguageFlag(user.nativeLanguage)}
                           Native: {capitalize(user.nativeLanguage)}
                         </span>
 
