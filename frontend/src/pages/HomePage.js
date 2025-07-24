@@ -10,7 +10,7 @@ import { Link } from "react-router";
 import { CheckCircleIcon, MapIcon, UserIcon, UserPlusIcon } from "lucide-react";
 import FriendCard from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
-import getLanguageFlag from "../lib/helpers";
+import getLanguageFlag from "../lib/utils";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
