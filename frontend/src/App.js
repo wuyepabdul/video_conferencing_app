@@ -62,7 +62,7 @@ const App = () => {
           element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}
         />
         <Route
-          path="/notification"
+          path="/notifications"
           element={
             isAuthenticated && isOnboarded ? (
               <Layout showSidebar={true}>

@@ -115,7 +115,7 @@ export const getFriendRequests = async (req, res) => {
   try {
     const incomingReqs = await FriendRequest.find({
       recipient: req.user.id,
-      status: pending,
+      status: "pending",
     }).populate(
       "sender",
       "fullName profilePic nativeLanguage learningLanguage"
@@ -123,7 +123,7 @@ export const getFriendRequests = async (req, res) => {
 
     const acceptedReqs = await FriendRequest.find({
       sender: req.user.id,
-      status: accepted,
+      status: "accepted",
     }).populate("recipient", "fullName profilePic ");
 
     res.status(200).json({ incomingReqs, acceptedReqs });
