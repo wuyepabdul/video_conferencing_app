@@ -1,9 +1,0 @@
-PORT = 5001
-
-MONGO_URI = mongodb+srv://wuyepabdul:fVWrpsgaBucyGQPq@cluster0.oak3jxv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-
-STREAM_API_KEY = 3yn45btdyzdw
-STREAM_API_SECRET = 5xjfut42nau2pvruzmhvbfdgsab6dxmxe3cs9ncumd4day999qqvvsb7sbq69cvg
-
-JWT_SECRET_KEY = qqctAVZNbf+dK2i8m7/eyry2MURaKcb/pLBctqhHFl0=
-NODE_ENV = production
