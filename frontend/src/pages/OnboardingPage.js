@@ -13,7 +13,7 @@ import {
 import { LANGUAGES } from "../constants";
 
 const OnboardingPage = () => {
-  const { isLoading, authUser } = useAuthUser();
+  const { authUser } = useAuthUser();
   const queryClient = useQueryClient();
 
   const [formState, setFormState] = useState({
